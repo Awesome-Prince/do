@@ -154,6 +154,10 @@ def start(update: Update, context: CallbackContext):    # sourcery no-metrics
                                     context.bot.username
                                 ),
                             )
+                          ],
+                    ]
+                ),
+            )
 
             context.bot.answer_callback_query(query.id)
             return
@@ -190,14 +194,6 @@ def start(update: Update, context: CallbackContext):    # sourcery no-metrics
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton(
-                                text="Try inline",
-                                switch_inline_query_current_chat="",
-                            ),
-                            InlineKeyboardButton(
-                                text="Help",
-                                callback_data="help_back",
-                            ),
                             InlineKeyboardButton(
                                 text=gs(chat.id, "add_bot_to_group_btn"),
                                 url="t.me/{}?startgroup=true".format(
