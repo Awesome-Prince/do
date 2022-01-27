@@ -275,9 +275,9 @@ def help_button(update, context):
                 + help_text
             )
             help_buttons.append(
-                [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
-                
-            ),
+                [InlineKeyboardButton(text="Back", callback_data="help_back"),
+                InlineKeyboardButton(text='Channel', url='https://t.me/AnieBots')]
+            )
             query.message.edit_text(
                 text=text,
                 parse_mode=ParseMode.MARKDOWN,
