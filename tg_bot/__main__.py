@@ -149,16 +149,6 @@ def start(update: Update, context: CallbackContext):    # sourcery no-metrics
                     [
                         [
                             InlineKeyboardButton(
-                                text="Try inline",
-                                switch_inline_query_current_chat="",
-                            ),                            
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text="Help",
-                                callback_data="help_back",
-                            ),
-                            InlineKeyboardButton(
                                 text=gs(chat.id, "add_bot_to_group_btn"),
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
