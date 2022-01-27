@@ -33,8 +33,6 @@ pm_help_text: |
    the things I can help you with.
    
 add_bot_to_group_btn: "Add Bot"
-support_chat_link_btn: "Support"
-updates_channel_link_btn: "Update"
 
 admin_help: |
    • `/admins`*:* list of admins in the chat
