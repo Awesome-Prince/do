@@ -101,9 +101,10 @@ def send_help(chat_id, text, keyboard=None):
 
     if not keyboard:
         kb = paginate_modules(0, HELPABLE, "help")
-        kb.append(InlineKeyboardButton(text='Bᴀᴄᴋ', callback_data='start_back')
+        kb.append([InlineKeyboardButton(text='Bᴀᴄᴋ', callback_data='start_back')])
+        keyboard = InlineKeyboardMarkup(kb)
     dispatcher.bot.send_message(
-        chat_id=chat_id, text=text, parse_mode=ParseMode.MARKDOWN,
+        chat_id=chat_id, text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard
     )
 
 
