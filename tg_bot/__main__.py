@@ -153,8 +153,8 @@ def start(update: Update, context: CallbackContext):    # sourcery no-metrics
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
                                 ),
-                            )
-                          ],
+                            ),
+                        ],                
                     ]
                 ),
             )
@@ -200,7 +200,7 @@ def start(update: Update, context: CallbackContext):    # sourcery no-metrics
                                     context.bot.username
                                 ),
                             ),
-                        ],
+                        ],                
                     ]
                 ),
             )
@@ -275,9 +275,9 @@ def help_button(update, context):
                 + help_text
             )
             help_buttons.append(
-                [InlineKeyboardButton(text="Bᴀᴄᴋ", callback_data="help_back"),
-                InlineKeyboardButton(text='Sᴜᴘᴘᴏʀᴛ', url='https://t.me/decodesupport')]
-            )
+                [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
+                
+            ),
             query.message.edit_text(
                 text=text,
                 parse_mode=ParseMode.MARKDOWN,
