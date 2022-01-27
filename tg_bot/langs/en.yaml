@@ -49,7 +49,7 @@ afk_help: |
 
 anilist_help: |
     *AniList*
-    Get information about anime, manga or characters with the help of this module! All data is fetched from [AniList](anilist.co).
+    Get information about anime, manga or characters with the help of this module! All data is fetched from *AniList*.
     *Available commands:*
      - /anime <anime>: returns information about the anime.
      - /character <character>: returns information about the character.
@@ -251,7 +251,7 @@ antispam_help: |
      you and your groups by removing spam flooders as quickly as possible.
      *Note:* Users can appeal gbans or report spammers at @YorkTownEagleUnion
 
-     Kigyo also integrates @Spamwatch and @Intellivoid's SpamProtectionBot API to remove Spammers as much as possible from your chatroom!
+     Anie also integrates @Spamwatch and @Intellivoid's SpamProtectionBot API to remove Spammers as much as possible from your chatroom!
      *What is SpamWatch?*
      SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters.
      Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
@@ -438,20 +438,18 @@ greetings_help: |
        • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
 
 nation_help: |
-      - /eagle - Lists all Eagle Union members.
+      - /anie - Lists all Anie members.
       - /royals - Lists all Royal Nations.
       - /sakuras - Lists all Sakura Nations.
       - /sardegnas - Lists all Sardegnas Nations.
       - /neptunians - Lists all Neptunia Nations.
       Note: These commands list users with special bot priveleges and can only be used by them.
-      You can visit @YorktownEagleUnion to query more about these.
+      You can visit @AnieBots to query more about these.
 
 nlp_help: |
 
       *Chatroom Spam Prediction*
        This feature uses @Intellivoid's Coffeehouse AI to
        process chat messages and detect spam.
-       This comes under Coffehouse' NLP. Learn more about
-       it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatroom)
        *Command:*
         • `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
