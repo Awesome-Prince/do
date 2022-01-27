@@ -163,21 +163,7 @@ def start(update: Update, context: CallbackContext):    # sourcery no-metrics
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
                                 ),
-                            ),
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text=gs(chat.id, "support_chat_link_btn"),
-                                url='https://t.me/Decodesupport',
-                            ),
-                            InlineKeyboardButton(
-                                text=gs(chat.id, "updates_channel_link_btn"),
-                                url="https://t.me/Deecodebots",
-                            ),
-                        ],
-                    ]
-                ),
-            )
+                            )
 
             context.bot.answer_callback_query(query.id)
             return
