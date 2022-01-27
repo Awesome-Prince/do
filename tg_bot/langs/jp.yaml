@@ -21,8 +21,6 @@ pm_help_text: |
    私があなたを助けることができること.
    
 add_bot_to_group_btn:  "私を追加してください"
-support_chat_link_btn:  "サポート"
-updates_channel_link_btn: "更新"
 
 admin_help: |
    • `/admins`*:* list of admins in the chat
