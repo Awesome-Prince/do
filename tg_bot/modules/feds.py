@@ -20,6 +20,7 @@ from telegram import (
     ChatAction,
 )
 from telegram.utils.helpers import mention_html, mention_markdown
+from telethon import Button
 
 from tg_bot import (
     dispatcher,
@@ -445,37 +446,57 @@ def user_demote_fed(update, context):
         update.effective_message.reply_text("Only federation owners can do this!")
         return
 
+@kigcallback(pattern=r"smex")
+def smex(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user, owner= input.split("|")
+  user = user.strip()
+  owner = owner.strip()
+  if event.sender_id == int(owner):
+     rt = await tbot(GetFullUserRequest(int(owner)))
+     fname = rt.user.first_name
+     await event.edit(f"Fedadmin promotion cancelled by [{fname}](tg://user?id={owner})")
+     return
+  if event.sender_id == int(user):
+     rt = await tbot(GetFullUserRequest(int(user)))
+     fname = rt.user.first_name
+     await event.edit(f"Fedadmin promotion has been refused by [{fname}](tg://user?id={user}).")
+     return
+  await event.answer("You are not the user being fpromoted")
+
+
 
 @typing_action
 @kigcmd(command='fedinfo', pass_args=True)
-def fed_info(update, context):
-    chat = update.effective_chat  # type: Optional[Chat]
-    user = update.effective_user  # type: Optional[User]
-    args = context.args
-    if args:
-        fed_id = args[0]
-    else:
-        fed_id = sql.get_fed_id(chat.id)
-        if not fed_id:
-            send_message(
-                update.effective_message,
-                "This group is not in any federation!",
-            )
-            return
-    info = sql.get_fed_info(fed_id)
-    if is_user_fed_admin(fed_id, user.id) is False:
-        update.effective_message.reply_text("Only a federation admin can do this!")
-        return
-
-    owner = context.bot.get_chat(info["owner"])
-    try:
-        owner_name = owner.first_name + " " + owner.last_name
-    except:
-        owner_name = owner.first_name
-    FEDADMIN = sql.all_fed_users(fed_id)
-    FEDADMIN.append(int(owner.id))
-    TotalAdminFed = len(FEDADMIN)
-
+ def info(event):
+ if not event.is_private:
+   if not await is_admin(event, event.sender_id):
+     return await event.reply("This command can only be used in private.")
+ input = event.pattern_match.group(1)
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not input:
+  if not fedowner:
+   return await event.reply("You need to give me a FedID to check, or be a federation creator to use this command!")
+ if input:
+   fed_id = input
+   info = sql.get_fed_info(fed_id)
+   if not info:
+      return await event.reply("There is no federation with this FedID.")
+   name = info["fname"]
+ elif fedowner:
+   for f in fedowner:
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
+   info = sql.get_fed_info(fed_id)
+ if info:
+  owner = int(info["owner"])
+  getfban = sql.get_all_fban_users(fed_id)
+  getfchat = sql.all_fed_chats(fed_id)
+  FEDADMIN = sql.all_fed_users(fed_id)
+  TotalAdminFed = len(FEDADMIN)
+  
     user = update.effective_user  # type: Optional[Chat]
     chat = update.effective_chat  # type: Optional[Chat]
     info = sql.get_fed_info(fed_id)
@@ -490,10 +511,41 @@ def fed_info(update, context):
     getfchat = sql.all_fed_chats(fed_id)
     text += "\nNumber of groups in this federation: <code>{}</code>".format(
         len(getfchat)
-    )
+  buttons = Button.inline("Check Fed Admins", data="fedadmins{}".format(fed_id))
+  await tbot.send_message(event.chat_id, caption, buttons=buttons)
 
-    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
+@kigcallback(pattern=r"fedadmins")
+def fedadmins(update: Update, context: CallbackContext):
+async def smex_fed(event):
+  if event.is_group:
+    if not await is_admin(event, event.sender_id):
+      return await event.answer("You need to be an admin to do this")
+  await event.edit(buttons=None)
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  fed_id = input
+  info = sql.get_fed_info(fed_id)
+  try:
+        text = "Admins in federation '{}':\n".format(info["fname"])
+        owner = await tbot.get_entity(int(info["owner"]))
+        try:
+            owner_name = owner.first_name + " " + owner.last_name
+        except:
+            owner_name = owner.first_name
+        text += f"- [{owner_name}](tg://user?id={owner.id}) (`{owner.id}`)\n"
 
+        members = sql.all_fed_members(fed_id)
+        for x in members:
+          try:
+            user = await tbot.get_entity(int(x))
+            unamee = user.first_name
+            text += f"- [{unamee}](tg://user?id={user.id}) (`{user.id}`)"
+          except Exception:
+            text += f"- {x}/n"
+  except Exception as e:
+   print(e)
+  await event.reply(text)
 
 @typing_action
 @kigcmd(command='fedadmins', pass_args=True)
